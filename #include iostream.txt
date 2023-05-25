@@ -1,0 +1,66 @@
+#include <iostream>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Network.hpp>
+using namespace sf;
+using namespace std;
+
+RenderWindow window(VideoMode(1200, 800), "SFML Works!", Style::Close | Style::Titlebar);
+
+
+void mainscreen() {             
+
+	Vector2f rec1pos = Vector2f(0, 0);
+	// shapes and properties
+	RectangleShape rec1(Vector2f(1200.f, 800.f));
+	rec1.setFillColor(Color::Cyan);
+	rec1.setPosition(rec1pos);
+	//Creating font
+	Font font;
+	if (!font.loadFromFile("Fonts/AnandaBlackPersonalUseRegular-rg9Rx.ttf"))
+		throw("COULD NOT LOAD FONT");
+	//Landing Screen Text
+	Text text;
+	text.setFont(font);
+	text.setCharacterSize(50);
+	text.setFillColor(Color::Red);
+	text.setStyle(Text::Regular);
+	text.setString(" Dino Runner ");
+	text.setPosition(Vector2f(450, 300));
+	/// sound creation 
+	SoundBuffer soundBuffer;
+	Sound sound;
+	if(!soundBuffer.loadFromFile("Audio/Track 1.wav"))
+		throw("COULD NOT LOAD Audio");
+	sound.setBuffer(soundBuffer);
+	/// main loop 
+	sound.play();
+	while (window.isOpen())
+	{
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		
+		window.clear();
+		window.draw(rec1);
+		window.draw(text);
+		window.display();
+		
+	}
+
+}
+
+
+/// main function 
+int main()
+{
+	window.setFramerateLimit(60); // to not burn out your graphics card
+
+	mainscreen();
+}
